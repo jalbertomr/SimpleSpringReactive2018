@@ -4,7 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
 
 @SpringBootApplication
 public class SpringReactive2018Application {
@@ -16,8 +16,10 @@ public class SpringReactive2018Application {
 	@Bean
 	CommandLineRunner demo() {
 		return args -> {
-			Mono<String> miMono = Mono.just("Mono Maneja un Solo Dato");
-			miMono.subscribe(System.out::println);
+			Flux<String> miFlux = Flux.fromArray("1,2,3,4,5,6".split(","));
+			miFlux.map(Integer::parseInt)
+                    .filter(i -> i % 2 == 0)
+                    .subscribe(System.out::println, null, null);
 		};
 	}
 }
